@@ -8,7 +8,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, l
     scene.setBackgroundColor(6)
     placeberry()
     placeberry2()
-    info.startCountdown(200)
+    info.startCountdown(100)
     game.showLongText("R.O.G.E.R here! For this level, eat all the berries you can.", DialogLayout.Center)
     game.showLongText("If you can't find a berry, hit B.", DialogLayout.Center)
     game.showLongText("Once you have eaten 20 berries, flick the lever.", DialogLayout.Center)
@@ -62,7 +62,7 @@ function placeberry2 () {
         ......333333....
         ........3333....
         `, SpriteKind.treasure_2)
-    tiles.placeOnTile(nanab_berry, tiles.getTileLocation(randint(1, 15), randint(1, 15)))
+    tiles.placeOnTile(nanab_berry, tiles.getTileLocation(randint(1, 14), randint(8, 14)))
 }
 info.onCountdownEnd(function () {
     game.over(false, effects.melt)
@@ -94,7 +94,7 @@ function placeberry () {
         ................
         ................
         `, SpriteKind.tresure)
-    tiles.placeOnTile(oran_berry, tiles.getTileLocation(randint(1, 15), randint(1, 15)))
+    tiles.placeOnTile(oran_berry, tiles.getTileLocation(randint(1, 14), randint(8, 15)))
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.treasure_2, function (sprite, otherSprite) {
     nanab_berry.destroy(effects.disintegrate, 500)
