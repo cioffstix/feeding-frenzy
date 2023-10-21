@@ -17,8 +17,10 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.greenSwitchUp, function (sprite, location) {
     if (info.score() >= 1) {
-        tiles.setTileAt(tiles.getTileLocation(8, 5), sprites.dungeon.collectibleInsignia)
-        tiles.setWallAt(tiles.getTileLocation(8, 5), false)
+        tiles.setTileAt(tiles.getTileLocation(7, 4), sprites.dungeon.collectibleInsignia)
+        tiles.setTileAt(tiles.getTileLocation(6, 4), sprites.dungeon.collectibleInsignia)
+        tiles.setWallAt(tiles.getTileLocation(7, 4), false)
+        tiles.setWallAt(tiles.getTileLocation(6, 4), false)
     } else {
         game.showLongText("You need to get more points first!", DialogLayout.Bottom)
     }
