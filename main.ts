@@ -16,7 +16,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     placeberry()
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.greenSwitchUp, function (sprite, location) {
-    if (info.score() >= 1) {
+    if (info.score() >= 15) {
         tiles.setTileAt(tiles.getTileLocation(7, 4), sprites.dungeon.collectibleInsignia)
         tiles.setTileAt(tiles.getTileLocation(6, 4), sprites.dungeon.collectibleInsignia)
         tiles.setWallAt(tiles.getTileLocation(7, 4), false)
@@ -34,6 +34,7 @@ info.onCountdownEnd(function () {
     game.over(false, effects.melt)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
+    info.changeScoreBy(20)
     game.over(true, effects.confetti)
 })
 function placeberry () {
