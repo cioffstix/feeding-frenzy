@@ -6,6 +6,10 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, l
     tiles.setTilemap(tilemap`level2`)
     scene.setBackgroundColor(6)
     placeberry()
+    placeberry()
+    placeberry()
+    placeberry()
+    placeberry()
     info.startCountdown(200)
     game.showLongText("R.O.G.E.R here! For this level, eat all the berries you can.", DialogLayout.Center)
     game.showLongText("If you can't find a berry, hit B.", DialogLayout.Center)
@@ -16,7 +20,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     placeberry()
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.greenSwitchUp, function (sprite, location) {
-    if (info.score() >= 15) {
+    if (info.score() >= 20) {
         tiles.setTileAt(tiles.getTileLocation(7, 4), sprites.dungeon.collectibleInsignia)
         tiles.setTileAt(tiles.getTileLocation(6, 4), sprites.dungeon.collectibleInsignia)
         tiles.setWallAt(tiles.getTileLocation(7, 4), false)
