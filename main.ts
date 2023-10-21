@@ -1,15 +1,13 @@
 namespace SpriteKind {
     export const tresure = SpriteKind.create()
+    export const treasure_2 = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
     game.splash("Great job!", "On to level 2!")
     tiles.setTilemap(tilemap`level2`)
     scene.setBackgroundColor(6)
     placeberry()
-    placeberry()
-    placeberry()
-    placeberry()
-    placeberry()
+    placeberry2()
     info.startCountdown(200)
     game.showLongText("R.O.G.E.R here! For this level, eat all the berries you can.", DialogLayout.Center)
     game.showLongText("If you can't find a berry, hit B.", DialogLayout.Center)
@@ -17,7 +15,9 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, l
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     oran_berry.destroy()
+    nanab_berry.destroy()
     placeberry()
+    placeberry2()
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.greenSwitchUp, function (sprite, location) {
     if (info.score() >= 20) {
@@ -34,6 +34,36 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.tresure, function (sprite, other
     info.changeScoreBy(1)
     placeberry()
 })
+function placeberry2 () {
+    nanab_berry = sprites.create(img`
+        .............eee
+        ............555e
+        ...........5555.
+        ..........55555.
+        ........5ff555..
+        .......5555ff...
+        ......5555555...
+        .....5555555....
+        ....5555555.....
+        ...55555555.....
+        ...5555555......
+        ...555555.......
+        ...555555.......
+        ...55555........
+        ...55555........
+        ...53355........
+        ...333355.......
+        ...333333.......
+        ...333333.......
+        ....333333......
+        .....333333.....
+        .....333333.....
+        ......333333....
+        ......333333....
+        ........3333....
+        `, SpriteKind.treasure_2)
+    tiles.placeOnTile(nanab_berry, tiles.getTileLocation(randint(1, 15), randint(1, 15)))
+}
 info.onCountdownEnd(function () {
     game.over(false, effects.melt)
 })
@@ -66,6 +96,12 @@ function placeberry () {
         `, SpriteKind.tresure)
     tiles.placeOnTile(oran_berry, tiles.getTileLocation(randint(1, 15), randint(1, 15)))
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.treasure_2, function (sprite, otherSprite) {
+    nanab_berry.destroy(effects.disintegrate, 500)
+    info.changeScoreBy(1)
+    placeberry2()
+})
+let nanab_berry: Sprite = null
 let oran_berry: Sprite = null
 scene.setBackgroundColor(7)
 let Morpeko = sprites.create(assets.image`Morpeko`, SpriteKind.Player)
