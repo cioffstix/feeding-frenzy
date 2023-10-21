@@ -3,15 +3,9 @@ namespace SpriteKind {
     export const treasure_2 = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
-    game.splash("Great job!", "On to level 2!")
-    tiles.setTilemap(tilemap`level2`)
-    scene.setBackgroundColor(6)
-    placeberry()
-    placeberry2()
-    info.startCountdown(100)
-    game.showLongText("R.O.G.E.R here! For this level, eat all the berries you can.", DialogLayout.Center)
-    game.showLongText("If you can't find a berry, hit B.", DialogLayout.Center)
-    game.showLongText("Once you have eaten 20 berries, flick the lever.", DialogLayout.Center)
+    tiles.setTilemap(tilemap`level3`)
+    tiles.placeOnTile(Morpeko, tiles.getTileLocation(0, 1))
+    game.showLongText("Wow! It's so dark! Anyway, get to the tunnel's exit.", DialogLayout.Center)
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     oran_berry.destroy()
@@ -33,6 +27,17 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.tresure, function (sprite, other
     oran_berry.destroy(effects.disintegrate, 500)
     info.changeScoreBy(1)
     placeberry()
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
+    game.splash("Great job!", "On to level 2!")
+    tiles.setTilemap(tilemap`level2`)
+    scene.setBackgroundColor(6)
+    placeberry()
+    placeberry2()
+    info.startCountdown(100)
+    game.showLongText("R.O.G.E.R here! For this level, eat all the berries you can.", DialogLayout.Center)
+    game.showLongText("If you can't find a berry, hit B.", DialogLayout.Center)
+    game.showLongText("Once you have eaten 20 berries, flick the lever.", DialogLayout.Center)
 })
 function placeberry2 () {
     nanab_berry = sprites.create(img`
@@ -103,8 +108,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.treasure_2, function (sprite, ot
 })
 let nanab_berry: Sprite = null
 let oran_berry: Sprite = null
+let Morpeko: Sprite = null
 scene.setBackgroundColor(7)
-let Morpeko = sprites.create(assets.image`Morpeko`, SpriteKind.Player)
+Morpeko = sprites.create(assets.image`Morpeko`, SpriteKind.Player)
 Morpeko.setPosition(10, 15)
 controller.moveSprite(Morpeko, 85, 85)
 scene.cameraFollowSprite(Morpeko)
