@@ -4,34 +4,32 @@ namespace SpriteKind {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
     game.splash("Great job!", "On to level 2!")
     tiles.setTilemap(tilemap`level2`)
+    scene.setBackgroundColor(6)
     placeberry()
-    Ghost_of_hangryness = sprites.create(img`
-        . c c c c c c c c c c c c c c . 
-        c c c c c c c c c c c c c c c c 
-        c c 1 1 1 c c c c c c 1 1 1 c c 
-        c c 1 a 1 c c c c c c 1 a 1 c c 
-        c c 1 a 1 c c c c c c 1 a 1 c c 
-        c c 1 a 1 c c c c c c 1 a 1 c c 
-        c c 1 a 1 c c c c c c 1 a 1 c c 
-        c c 1 c 1 c c c c c c 1 c 1 c c 
-        c c 1 1 1 c c c c c c 1 1 1 c c 
-        c c c c c c c c c c c c c c c c 
-        c c c c c c c c c c c c c c c c 
-        c c c c c c c c c c c c c c c c 
-        c c c c c c c c c c c c c c c c 
-        c c c c c c c c c c c c c c c c 
-        c c . c . c c c . c . c . c . c 
-        c . . . . c . . . . . c . . . c 
-        `, SpriteKind.Enemy)
-    Ghost_of_hangryness.follow(Morpeko, 40)
+    info.startCountdown(200)
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    oran_berry.setPosition(0, 0)
+    oran_berry.destroy()
+    placeberry()
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.greenSwitchUp, function (sprite, location) {
+    if (info.score() >= 20) {
+        tiles.setTileAt(tiles.getTileLocation(8, 5), sprites.dungeon.collectibleInsignia)
+        tiles.setWallAt(tiles.getTileLocation(8, 5), false)
+    } else {
+        game.showLongText("You need to get more points first!", DialogLayout.Bottom)
+    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.tresure, function (sprite, otherSprite) {
     oran_berry.destroy(effects.disintegrate, 500)
     info.changeScoreBy(1)
     placeberry()
+})
+info.onCountdownEnd(function () {
+    game.over(false, effects.melt)
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
+    game.over(true, effects.confetti)
 })
 function placeberry () {
     oran_berry = sprites.create(img`
@@ -59,16 +57,17 @@ function placeberry () {
     tiles.placeOnTile(oran_berry, tiles.getTileLocation(randint(1, 15), randint(1, 15)))
 }
 let oran_berry: Sprite = null
-let Ghost_of_hangryness: Sprite = null
-let Morpeko: Sprite = null
-Morpeko = sprites.create(assets.image`Morpeko`, SpriteKind.Player)
+scene.setBackgroundColor(7)
+let Morpeko = sprites.create(assets.image`Morpeko`, SpriteKind.Player)
 Morpeko.setPosition(10, 15)
 controller.moveSprite(Morpeko, 85, 85)
 scene.cameraFollowSprite(Morpeko)
 tiles.setTilemap(tilemap`level1`)
 info.setScore(0)
-game.onUpdateInterval(5000, function () {
-    if (info.score() >= 20) {
-        tiles.setWallAt(tiles.getTileLocation(14, 1), false)
-    }
-})
+game.showLongText("Testing!", DialogLayout.Center)
+game.showLongText("Can you hear me???????????????", DialogLayout.Center)
+game.showLongText("Great!", DialogLayout.Center)
+game.showLongText("I am R.O.G.E.R, Robot onboard guide to all emergency rodeos!", DialogLayout.Center)
+game.showLongText("That's me in your ear!", DialogLayout.Center)
+game.showLongText("Anyways, i will be helping you get through the levels of FEEDING FRENZY!", DialogLayout.Center)
+game.showLongText("For this level, find the hole, and then climb down it.", DialogLayout.Center)
