@@ -1,9 +1,10 @@
 namespace SpriteKind {
     export const tresure = SpriteKind.create()
     export const treasure_2 = SpriteKind.create()
+    export const enviorment = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
-    tiles.setTilemap(tilemap`level3`)
+    tiles.setTilemap(tilemap`level8`)
     tiles.placeOnTile(Morpeko, tiles.getTileLocation(0, 1))
     game.showLongText("Wow! It's so dark! Anyway, get to the tunnel's exit.", DialogLayout.Center)
 })
@@ -12,6 +13,9 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     nanab_berry.destroy()
     placeberry()
     placeberry2()
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+	
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.greenSwitchUp, function (sprite, location) {
     if (info.score() >= 20) {
@@ -27,17 +31,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.tresure, function (sprite, other
     oran_berry.destroy(effects.disintegrate, 500)
     info.changeScoreBy(1)
     placeberry()
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
-    game.splash("Great job!", "On to level 2!")
-    tiles.setTilemap(tilemap`level2`)
-    scene.setBackgroundColor(6)
-    placeberry()
-    placeberry2()
-    info.startCountdown(100)
-    game.showLongText("R.O.G.E.R here! For this level, eat all the berries you can.", DialogLayout.Center)
-    game.showLongText("If you can't find a berry, hit B.", DialogLayout.Center)
-    game.showLongText("Once you have eaten 20 berries, flick the lever.", DialogLayout.Center)
 })
 function placeberry2 () {
     nanab_berry = sprites.create(img`
@@ -69,12 +62,33 @@ function placeberry2 () {
         `, SpriteKind.treasure_2)
     tiles.placeOnTile(nanab_berry, tiles.getTileLocation(randint(1, 14), randint(8, 14)))
 }
+function makebubbles () {
+    bubbles = sprites.create(img`
+        . 9 9 9 9 9 9 9 9 9 9 9 9 9 9 . 
+        9 9 6 9 9 8 8 8 1 1 1 1 1 1 9 9 
+        9 6 9 9 9 9 6 8 8 1 1 1 1 1 1 9 
+        9 9 9 9 9 9 9 6 8 8 8 8 1 1 1 9 
+        9 9 9 9 9 9 9 9 9 9 6 8 8 1 1 9 
+        9 9 9 9 9 9 9 9 9 9 9 6 8 1 1 9 
+        9 9 9 9 9 9 9 9 9 9 9 9 8 1 1 9 
+        9 9 9 9 9 9 9 9 9 9 9 9 8 8 1 9 
+        9 9 9 9 9 9 9 9 9 9 9 9 6 8 8 9 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 6 8 9 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 8 9 
+        9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        9 6 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        9 6 6 9 9 9 9 9 9 9 9 9 9 9 9 9 
+        9 9 6 6 9 9 9 9 9 9 9 9 9 9 6 9 
+        . 9 9 9 9 9 9 9 9 9 9 9 9 9 9 . 
+        `, SpriteKind.enviorment)
+    tiles.placeOnTile(bubbles, tiles.getTileLocation(randint(0, 16), randint(0, 15)))
+}
 info.onCountdownEnd(function () {
     game.over(false, effects.melt)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
     info.changeScoreBy(20)
-    game.over(true, effects.confetti)
+    tiles.setTilemap(tilemap`level6`)
 })
 function placeberry () {
     oran_berry = sprites.create(img`
@@ -101,11 +115,23 @@ function placeberry () {
         `, SpriteKind.tresure)
     tiles.placeOnTile(oran_berry, tiles.getTileLocation(randint(1, 14), randint(8, 15)))
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
+    game.splash("Great job!", "On to level 2!")
+    tiles.setTilemap(tilemap`level2`)
+    scene.setBackgroundColor(6)
+    placeberry()
+    placeberry2()
+    info.startCountdown(100)
+    game.showLongText("R.O.G.E.R here! For this level, eat all the berries you can.", DialogLayout.Center)
+    game.showLongText("If you can't find a berry, hit B.", DialogLayout.Center)
+    game.showLongText("Once you have eaten 20 berries, flick the lever.", DialogLayout.Center)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.treasure_2, function (sprite, otherSprite) {
     nanab_berry.destroy(effects.disintegrate, 500)
     info.changeScoreBy(1)
     placeberry2()
 })
+let bubbles: Sprite = null
 let nanab_berry: Sprite = null
 let oran_berry: Sprite = null
 let Morpeko: Sprite = null
