@@ -4,15 +4,10 @@ namespace SpriteKind {
     export const enviorment = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
+    tunnel = true
     tiles.setTilemap(tilemap`level8`)
     tiles.placeOnTile(Morpeko, tiles.getTileLocation(0, 1))
     game.showLongText("Wow! It's so dark! Anyway, get to the tunnel's exit.", DialogLayout.Center)
-})
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    oran_berry.destroy()
-    nanab_berry.destroy()
-    placeberry()
-    placeberry2()
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 	
@@ -88,7 +83,14 @@ info.onCountdownEnd(function () {
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
     info.changeScoreBy(20)
-    tiles.setTilemap(tilemap`level6`)
+    game.over(true, effects.confetti)
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (tunnel == true) {
+        Morpeko.setVelocity(85, 100)
+    } else {
+        Morpeko.setVelocity(85, 0)
+    }
 })
 function placeberry () {
     oran_berry = sprites.create(img`
@@ -116,6 +118,7 @@ function placeberry () {
     tiles.placeOnTile(oran_berry, tiles.getTileLocation(randint(1, 14), randint(8, 15)))
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
+    velo = false
     game.splash("Great job!", "On to level 2!")
     tiles.setTilemap(tilemap`level2`)
     scene.setBackgroundColor(6)
@@ -123,7 +126,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
     placeberry2()
     info.startCountdown(100)
     game.showLongText("R.O.G.E.R here! For this level, eat all the berries you can.", DialogLayout.Center)
-    game.showLongText("If you can't find a berry, hit B.", DialogLayout.Center)
     game.showLongText("Once you have eaten 20 berries, flick the lever.", DialogLayout.Center)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.treasure_2, function (sprite, otherSprite) {
@@ -131,14 +133,21 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.treasure_2, function (sprite, ot
     info.changeScoreBy(1)
     placeberry2()
 })
+let velo = false
 let bubbles: Sprite = null
 let nanab_berry: Sprite = null
 let oran_berry: Sprite = null
+let tunnel = false
 let Morpeko: Sprite = null
 scene.setBackgroundColor(7)
 Morpeko = sprites.create(assets.image`Morpeko`, SpriteKind.Player)
 Morpeko.setPosition(10, 15)
-controller.moveSprite(Morpeko, 85, 85)
+tunnel = false
+if (tunnel == false) {
+    controller.moveSprite(Morpeko, 85, 85)
+} else {
+    game.splash("yup")
+}
 scene.cameraFollowSprite(Morpeko)
 tiles.setTilemap(tilemap`level1`)
 info.setScore(0)
@@ -149,3 +158,8 @@ game.showLongText("I am R.O.G.E.R, Robot onboard guide to all emergency rodeos!"
 game.showLongText("That's me in your ear!", DialogLayout.Center)
 game.showLongText("Anyways, i will be helping you get through the levels of FEEDING FRENZY!", DialogLayout.Center)
 game.showLongText("For this level, find the hole, and then climb down it.", DialogLayout.Center)
+game.onUpdate(function () {
+    if (velo == true) {
+        Morpeko.setVelocity(0, 100)
+    }
+})
