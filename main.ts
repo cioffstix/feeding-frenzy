@@ -15,6 +15,14 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         up = true
     }
 })
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (sprite, location) {
+    info.changeScoreBy(50)
+    floor += 1
+    if (floor == 2) {
+        tiles.setTilemap(tilemap`level17`)
+        tiles.placeOnTile(Morpeko, tiles.getTileLocation(15, 3))
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.greenSwitchUp, function (sprite, location) {
     if (info.score() >= 150) {
         tiles.setTileAt(tiles.getTileLocation(7, 4), sprites.dungeon.collectibleInsignia)
@@ -94,15 +102,13 @@ info.onCountdownEnd(function () {
     game.over(false, effects.melt)
 })
 controller.C.onEvent(ControllerButtonEvent.Pressed, function () {
+    info.startCountdown(10)
+    info.stopCountdown()
     right = false
     tunnel = true
     tiles.setTilemap(tilemap`level8`)
     tiles.placeOnTile(Morpeko, tiles.getTileLocation(0, 1))
     game.showLongText("Wow! It's so dark! Anyway, get to the tunnel's exit.", DialogLayout.Center)
-})
-scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
-    info.changeScoreBy(50)
-    game.over(true, effects.confetti)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (indibuttons == true) {
@@ -160,22 +166,33 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.treasure_2, function (sprite, ot
     info.changeScoreBy(5)
     placeberry2()
 })
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestOpen, function (sprite, location) {
+    info.changeScoreBy(50)
+    game.splash("Excellent!", "Level Three")
+    tiles.setTilemap(tilemap`level16`)
+    tiles.placeOnTile(Morpeko, tiles.getTileLocation(15, 3))
+    floor = 1
+    game.showLongText("Now you need to get out of this building. Just find the stairs!", DialogLayout.Center)
+})
 let down = false
 let left = false
 let bubbles: Sprite = null
 let nanab_berry: Sprite = null
 let oran_berry: Sprite = null
+let floor = 0
 let up = false
 let indibuttons = false
 let tunnel = false
 let Morpeko: Sprite = null
 let right = false
 right = false
-scene.setBackgroundColor(7)
 Morpeko = sprites.create(assets.image`Morpeko`, SpriteKind.Player)
+Morpeko.setPosition(75, 27)
+game.splash("FEEDING FRENZY", "Press A to start")
 Morpeko.setPosition(10, 15)
 tunnel = false
 scene.cameraFollowSprite(Morpeko)
+scene.setBackgroundColor(7)
 tiles.setTilemap(tilemap`level1`)
 info.setScore(0)
 game.showLongText("Testing!", DialogLayout.Center)
@@ -185,6 +202,7 @@ game.showLongText("I am R.O.G.E.R, Robot onboard guide to all emergency rodeos!"
 game.showLongText("That's me in your ear!", DialogLayout.Center)
 game.showLongText("Anyways, i will be helping you get through the levels of FEEDING FRENZY!", DialogLayout.Center)
 game.showLongText("For this level, find the hole, and then climb down it.", DialogLayout.Center)
+scene.setBackgroundColor(7)
 game.onUpdate(function () {
     if (left == true) {
         if (tunnel == true) {
@@ -203,10 +221,8 @@ game.onUpdate(function () {
     }
     if (right == true) {
         if (tunnel == true) {
-            Morpeko.setVelocity(85, 70)
+            Morpeko.setVelocity(85, 100)
         }
-    } else {
-        right = false
     }
 })
 game.onUpdateInterval(100, function () {
