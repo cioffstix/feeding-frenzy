@@ -20,7 +20,13 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (spr
     floor += 1
     if (floor == 2) {
         tiles.setTilemap(tilemap`level17`)
-        tiles.placeOnTile(Morpeko, tiles.getTileLocation(15, 3))
+        tiles.placeOnTile(Morpeko, tiles.getTileLocation(3, 15))
+    } else if (floor == 3) {
+        tiles.setTilemap(tilemap`level19`)
+        tiles.placeOnTile(Morpeko, tiles.getTileLocation(3, 5))
+    } else if (floor == 4) {
+        tiles.setTilemap(tilemap`level24`)
+        tiles.placeOnTile(Morpeko, tiles.getTileLocation(23, 28))
     }
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.greenSwitchUp, function (sprite, location) {
@@ -97,6 +103,9 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     right = false
     Morpeko.setVelocity(0, 100)
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.castle.shrub, function (sprite, location) {
+    info.changeScoreBy(100)
 })
 info.onCountdownEnd(function () {
     game.over(false, effects.melt)
